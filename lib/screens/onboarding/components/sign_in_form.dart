@@ -1,3 +1,5 @@
+import 'package:animated/screens/entryPoint/entry_point.dart';
+import 'package:animated/utils/rive_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,11 +25,50 @@ class _SignInFormState extends State<SignInForm> {
   bool isShowLoading = false;
   bool isShowConfetti = false;
 
-  StateMachineController getRiveController(Artboard artBoard) {
-    StateMachineController? controller =
-        StateMachineController.fromArtboard(artBoard, "State Machine 1");
-    artBoard.addController(controller!);
-    return controller;
+  void signIn(BuildContext context){
+    setState(() {
+      isShowLoading = true;
+      isShowConfetti = true;
+
+    });
+    Future.delayed(const Duration(seconds: 1), () {
+      if (_formKey.currentState!.validate()) {
+        check.fire();
+        Future.delayed(const Duration(seconds: 2), () {
+          setState(() {
+            isShowLoading = false;
+
+          });
+          setState(() {
+            isShowConfetti = true;
+          });
+          confetti.fire();
+          Future.delayed(
+            Duration(seconds: 1),
+                () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EntryPoint(),
+                  ));
+            },
+          );
+        });
+      } else {
+        error.fire();
+        Future.delayed(const Duration(seconds: 2),
+                (){
+              setState(() {
+                isShowLoading = false;
+
+                isShowConfetti = false;
+
+              });
+            }
+
+        );
+      }
+    });
   }
 
   @override
@@ -94,40 +135,7 @@ class _SignInFormState extends State<SignInForm> {
                 padding: const EdgeInsets.only(top: 8.0, bottom: 24),
                 child: ElevatedButton.icon(
                     onPressed: () {
-                      setState(() {
-                        isShowLoading = true;
-                        isShowConfetti = true;
-
-                      });
-                      Future.delayed(const Duration(seconds: 1), () {
-                        if (_formKey.currentState!.validate()) {
-                          check.fire();
-                          Future.delayed(const Duration(seconds: 2), () {
-                            setState(() {
-                              isShowLoading = false;
-
-                            });
-                            setState(() {
-                              isShowConfetti = true;
-                            });
-                            confetti.fire();
-
-                          });
-                        } else {
-                          error.fire();
-                          Future.delayed(const Duration(seconds: 2),
-                                  (){
-                            setState(() {
-                              isShowLoading = false;
-
-                              isShowConfetti = false;
-
-                            });
-                          }
-
-                          );
-                        }
-                      });
+                      signIn(context);
                     },
                     icon: const Icon(
                       CupertinoIcons.arrow_right,
@@ -156,7 +164,7 @@ class _SignInFormState extends State<SignInForm> {
                   "assets/RiveAssets/check.riv",
                   onInit: (artBoard) {
                     StateMachineController controller =
-                        getRiveController(artBoard);
+                        RiveUtils.getRiveController(artBoard);
                     check = controller.findSMI("Check")
                         as SMITrigger;
                     error = controller.findSMI("Error")
@@ -171,7 +179,7 @@ class _SignInFormState extends State<SignInForm> {
           scale: 7,
           child: RiveAnimation.asset("assets/RiveAssets/confetti.riv",
           onInit: (artBoard){
-            StateMachineController controller = getRiveController(artBoard);
+            StateMachineController controller = RiveUtils.getRiveController(artBoard);
             confetti = controller.findSMI("Trigger explosion") as SMITrigger;
           },),
         ),
