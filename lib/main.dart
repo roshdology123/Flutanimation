@@ -1,3 +1,4 @@
+import 'package:animated/components/side_menu.dart';
 import 'package:animated/screens/onboarding/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           errorBorder: defaultInputBorder,
         ),
       ),
-      home: const OnBoardingScreen(),
+      home: const SideMenu(),
     );
   }
 }
