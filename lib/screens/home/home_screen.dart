@@ -2,7 +2,7 @@ import 'package:animated/model/course.dart';
 import 'package:animated/screens/home/components/course_card.dart';
 import 'package:animated/screens/home/components/secondary_course_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 
 
 
@@ -18,6 +18,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 40,),
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Text(

@@ -1,4 +1,5 @@
 import 'package:animated/components/side_menu.dart';
+import 'package:animated/screens/entryPoint/entry_point.dart';
 import 'package:animated/screens/onboarding/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           errorBorder: defaultInputBorder,
         ),
       ),
-      home: const SideMenu(),
+      home: const EntryPoint(),
     );
   }
 }
